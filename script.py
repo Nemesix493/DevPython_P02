@@ -5,6 +5,22 @@ import csv
 from os.path import join
 from os import getcwd, mkdir
 from pathlib import Path
+import wget
+
+
+def check_path(dir_path):
+    file_path = Path(dir_path)
+    if not file_path.exists():
+        check_path(join(dir_path, '..'))
+        mkdir(dir_path)
+
+
+def clean_filename(name):
+    cleaned = ''
+    for ltr in name:
+        if ltr.isalnum() or ltr == ' ':
+            cleaned += ltr
+    return cleaned
 
 
 def get_all_url_product(url):
@@ -33,7 +49,8 @@ def get_data_from_product_page(url):
     product_data['title'] = product.find('h1').text
     availability = product.find('p', class_="availability")
     if 'instock' in availability['class']:
-        product_data['number_available'] = availability.text.replace(' ', '').replace('\n\n\nInstock(', '').replace('available)\n\n', '')
+        product_data['number_available'] = availability.text.replace(' ', '')\
+            .replace('\n\n\nInstock(', '').replace('available)\n\n', '')
     else:
         product_data['number_available'] = "0"
     product_data['review_rating'] = product.find('p', class_='star-rating')['class'][1]
@@ -68,14 +85,13 @@ def brows_category_pages(url):
 
 
 def save_as_csv(dir, name, datas):
-    path = join(getcwd(), dir)
-    file_path = Path(path)
-    if not file_path.exists():
-        mkdir(path)
-    with open(join(getcwd(), dir, name + '.csv'), 'w', newline='', encoding='utf-8') as csv_file:
+    path = join(getcwd(), *dir)
+    check_path(path)
+    with open(join(getcwd(), *dir, name + '.csv'), 'w', newline='', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, [
             'product_page_url',
-            'image_url', 'product_description',
+            'image_url',
+            'product_description',
             'universal_product_code',
             'price_excluding_tax',
             'price_including_tax',
@@ -85,6 +101,12 @@ def save_as_csv(dir, name, datas):
             'category'], delimiter=',')
         writer.writeheader()
         writer.writerows(datas)
+
+
+def download_and_save_img(dir, name, image_link):
+    path = join(getcwd(), *dir)
+    check_path(path)
+    wget.download(image_link, join(getcwd(), *dir, clean_filename(name) + '.jpg'))
 
 
 def main():
@@ -98,8 +120,11 @@ def main():
         category['books_datas'] = []
         for link in category['books_link']:
             category['books_datas'].append(get_data_from_product_page(link))
-        save_as_csv('..\\collected_datas\\csv', category['name'], category['books_datas'])
+        save_as_csv(['collected_datas', 'csv'], category['name'], category['books_datas'])
+        for book in category['books_datas']:
+            download_and_save_img(['collected_datas', 'img', category['name']], book['title'], book['image_url'])
         print(category['name'] + ': ok !')
+
 
 
 if __name__ == '__main__':
