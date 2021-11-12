@@ -1,4 +1,4 @@
-# Project 2
+# Project 2 : Scraper of "Books to Scrape"
 ## Install the script
 
 First get sure you have a python version 3.8 or more
