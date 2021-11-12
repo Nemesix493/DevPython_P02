@@ -3,7 +3,7 @@
 
 first get sure you have a python version 3.8 or more
 
-mouv to the project directory
+move to the project directory
 
 then install all dependences with
 
