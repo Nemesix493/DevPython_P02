@@ -6,6 +6,7 @@ from os.path import join
 from os import getcwd, mkdir
 from pathlib import Path
 import wget
+import sys
 
 
 def check_path(dir_path):
@@ -106,10 +107,15 @@ def save_as_csv(dir, name, datas):
 def download_and_save_img(dir, name, image_link):
     path = join(getcwd(), *dir)
     check_path(path)
-    wget.download(image_link, join(getcwd(), *dir, clean_filename(name) + '.jpg'))
+    print(join(getcwd(), *dir, clean_filename(name) + '.jpg'))
+    wget.download(image_link, join(*dir, clean_filename(name) + '.jpg'))
 
 
-def main():
+def main(dir_path):
+    if dir_path is not None:
+        dir_path= [dir_path, 'collected_datas']
+    else:
+        dir_path = ['collected_datas']
     base_url = "http://books.toscrape.com/"
     categorys = get_all_categorys_data(base_url)
     for category in categorys:
@@ -120,12 +126,16 @@ def main():
         category['books_datas'] = []
         for link in category['books_link']:
             category['books_datas'].append(get_data_from_product_page(link))
-        save_as_csv(['collected_datas', 'csv'], category['name'], category['books_datas'])
+        save_as_csv([*dir_path, 'csv'], category['name'], category['books_datas'])
         for book in category['books_datas']:
-            download_and_save_img(['collected_datas', 'img', category['name']], book['title'], book['image_url'])
+            download_and_save_img([*dir_path, 'img', category['name']], book['title'], book['image_url'])
         print(category['name'] + ': ok !')
 
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
+        main(None)
+
