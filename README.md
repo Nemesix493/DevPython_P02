@@ -3,6 +3,8 @@
 
 First get sure you have a python version 3.8 or more
 
+Download the project files
+
 Move to the project directory
 
 Then install all dependences with
