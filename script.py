@@ -15,7 +15,7 @@ import sys
 def check_path(dir_path):
     file_path = Path(dir_path)
     if not file_path.exists():
-        check_path(join(dir_path, '..'))
+        check_path(file_path.parent)
         mkdir(dir_path)
 
 
