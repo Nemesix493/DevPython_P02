@@ -14,7 +14,7 @@ Then install all dependencies with
 ## Run the script
 If you use macOS or linux you can run the script with :
 
-    ./script.py
+    python3 script.py
 
 Else if you use windows you run the script with :
 
@@ -26,7 +26,7 @@ The directory's path can be a relative path or an absolute path
 
 For macOS or linux use :
 
-    ./script.py "directory's path"
+    pyhton3 script.py "directory's path"
 
 And for windows use :
 
