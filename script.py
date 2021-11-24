@@ -110,7 +110,6 @@ def save_as_csv(dir, name, datas):
 def download_and_save_img(dir, name, image_link):
     path = join(getcwd(), *dir)
     check_path(path)
-    print(join(getcwd(), *dir, clean_filename(name) + '.jpg'))
     wget.download(image_link, join(*dir, clean_filename(name) + '.jpg'))
 
 

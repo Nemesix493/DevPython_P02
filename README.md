@@ -22,6 +22,7 @@ Else if you use windows you run the script with :
 
 All the data will be saved in a directory named "collected_data" inside the project directory.
 But if you want save it in other place you can run the script and add the directory's path.
+The directory's path can be a relative path or an absolute path
 
 For macOS or linux use :
 
@@ -30,3 +31,4 @@ For macOS or linux use :
 And for windows use :
 
     python script.py "directory's path"
+
