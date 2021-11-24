@@ -116,9 +116,9 @@ def download_and_save_img(dir, name, image_link):
 
 def main(dir_path):
     if dir_path is not None:
-        dir_path= [dir_path, 'collected_datas']
+        dir_path= [dir_path, 'collected_data']
     else:
-        dir_path = ['collected_datas']
+        dir_path = ['collected_data']
     base_url = "http://books.toscrape.com/"
     categorys = get_all_categorys_data(base_url)
     for category in categorys:
