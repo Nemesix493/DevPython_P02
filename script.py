@@ -43,7 +43,7 @@ def get_data_from_product_page(url):
     soup = BeautifulSoup(response.content, "html.parser")
     product = soup.find('div', class_="content")
     product_data['image_url'] = urljoin(url, product.find('img')['src'])
-    if product.find('p', class_="") != None:
+    if product.find('p', class_=""):
         product_data['product_description'] = product.find('p', class_="").text.replace('\n', '')
     table_lines = product.find('table').find_all('tr')
     product_data['universal_product_code'] = table_lines[0].find('td').text
@@ -115,7 +115,7 @@ def download_and_save_img(dir, name, image_link):
 
 def main(dir_path):
     if dir_path is not None:
-        dir_path= [dir_path, 'collected_data']
+        dir_path = [dir_path, 'collected_data']
     else:
         dir_path = ['collected_data']
     base_url = "http://books.toscrape.com/"

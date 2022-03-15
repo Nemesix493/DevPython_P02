@@ -1,4 +1,4 @@
-# Project 2 : Scraper of "Books to Scrape"
+# Scraper of "Books to Scrape"
 
 ## Install the script
 
